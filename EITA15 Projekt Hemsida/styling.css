@@ -1,0 +1,65 @@
+.grid-container
+{
+	text-align: center;
+	display: grid;
+	grid-auto-columns: 2fr;
+	grid-gap: 10px;
+	grid-template-areas:
+	"header header header header"
+	"left right right right"
+	"bottom bottom bottom bottom"
+}
+
+.item-1
+{
+	margin-left: 100px;
+	text-align: left;
+	grid-area: left;
+	border: 2px solid;
+    border-color: black;
+	padding-left: 15px;
+	padding-right: 15px;
+	background-color: #E6E6FA;
+	width: auto;
+	height: 100%;
+}
+
+.item-2
+{
+	margin-right: 100px;
+	text-align: left;
+	grid-area: right;
+	border: 2px solid;
+    border-color: black;
+	padding-left: 15px;
+	padding-right: 15px;
+	background-color: #E6E6FA;
+	width: auto;
+	height: 100%;
+}
+
+.item-3
+{
+	margin: auto;
+	grid-area: header;
+	text-align: center;
+	border: 2px solid;
+    border-color: black;
+	width: 40%;
+	font-size: 48;
+	background-image: url("https://cdn.pixabay.com/photo/2014/11/21/15/33/snake-540656_960_720.jpg");
+}
+
+.item-4
+{
+	grid-area: bottom;
+	text-align: center;
+}
+
+.body
+{
+	margin: auto;
+	padding-left: 10%;
+	padding-right: 10%
+}
+
