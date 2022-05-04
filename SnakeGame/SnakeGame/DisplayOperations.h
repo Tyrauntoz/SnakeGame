@@ -31,6 +31,8 @@ void eLow();
 
 void WriteData();
 void WaitForDisplay();
+void ReadOn();
+void ReadOff();
 void Screen1();
 void Screen2();
 

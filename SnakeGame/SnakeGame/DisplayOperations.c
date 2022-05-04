@@ -139,3 +139,15 @@ void SetY(int y)
 	WriteData();
 }
 
+void ReadOn()
+{
+	rsHigh();
+	rwHigh();
+	DDRB = 0x0;
+	WriteData();
+}
+
+void ReadOff()
+{
+	DDRB = 0xFF;
+}
