@@ -13,6 +13,9 @@ void SnakeInit();
 void AddPart();
 void IsInBound();
 void AddFood();
+long GetSeed();
+void GetRotation(int x, int y);
+uint16_t ADCRead(uint8_t direction);
 
 char game[16][16]; //värde 0 = tom, 1 - 240 är snake delar, 241 = pickup, 242 - 246 snake huvud (alla rotationer).
 
@@ -24,6 +27,11 @@ char lastPosX;
 char lastPosY;
 char rotation = 0;
 int ttl = 3;
+int delay = 60;
+
+int joystickHor = 599;
+int joystickVer = 574;
+int joystickDeadZone = 150;
 
 int main(void)
 {
@@ -36,18 +44,11 @@ int main(void)
 	SnakeInit();
 	AddFood();
 	
-	char bajs = 0;
-	
 	while (1)
 	{
-		bajs++;
-		if((bajs % 4) == 3)
-		{
-			rotation++;
-			rotation %= 4;
-		}
 		Update();
 		Draw();
+		//delay = 300 * (1 / (ttl * 5));
 		_delay_ms(60);
 	}
 }
@@ -62,6 +63,14 @@ void SnakeInit()
 
 void AddPart()
 {
+	for (int i = 0; i < 16; i++)
+	{
+		for (int j = 0; j < 16; j++)
+		{
+			game[i][j]++;
+		}
+	}
+	
 	ttl++;
 }
 
@@ -72,11 +81,46 @@ void IsInBound()
 
 void AddFood()
 {
-	game[rand() % 16][rand() % 16] = 241;
+	game[random() % 16][random() % 16] = 241;
+}
+
+uint16_t ADCRead(uint8_t direction)
+{
+	ADMUX = (ADMUX & 0b11111000) | direction;
+	
+	ADCSRA |= 1 << ADSC;
+	while (ADCSRA & (1 << ADSC))
+	{}
+	return ADC;
+}
+
+void GetRotation(int x, int y)
+{
+	int currentX = ADCRead(x);
+	int currentY = ADCRead(y);
+	
+	if (currentX > joystickHor + joystickDeadZone)
+	{
+		rotation = 0;
+	}
+	if (currentY < joystickVer - joystickDeadZone)
+	{
+		rotation = 1;
+	}
+	if (currentX < joystickHor - joystickDeadZone)
+	{
+		rotation = 2;
+	}
+	if (currentY > joystickVer + joystickDeadZone)
+	{
+		rotation = 3;
+	}
 }
 
 void Update()
 {
+	GetRotation(0, 1);
+	
 	switch (rotation)
 	{
 		case 0:
@@ -110,15 +154,20 @@ void Update()
 	{
 		for (int y = 0; y < 16; y++)
 		{
+			if ((game[posX][posY] == 241))
+			{
+				AddPart();
+				AddFood();
+			}
+			
 			//game[x][y] = BodyParts[x][y];
-			if (game[x][y] > 0 && game[x][y] <= 240)
+			if ((game[x][y] > 0 && game[x][y] <= 240) )
 			{
 				game[x][y]--;
 			}
 			
 			game[lastPosX][lastPosY] = ttl;
 			game[posX][posY] = 250 + rotation;
-			
 		}
 	}
 }
@@ -147,13 +196,34 @@ void Draw()
 
 void Init()
 {
-	DDRA |= 0b11111111;
+	DDRA = 0x0;
 	DDRB |= 0b11111111;
 	DDRD |= 0b11111111;
 	
 	PORTD |= 0b10000000;
 	
-	srand(time(NULL));
+	ADMUX |= 0b01000000;
+	ADCSRA |= 0b10000111; //prescaler 128
+	
+	srandom(GetSeed());
+}
+
+long GetSeed()
+{
+	long seed = 0;
+	ReadOn();
+	
+	for (int i = 0; i < 8; i++)
+	{
+		SetX(i);
+		for (int j = 0; j < 64; j++)
+		{
+			seed += PORTB * i;
+			WriteData();
+		}
+	}
+	
+	ReadOff();
 }
 
 char ReadPix(char id, char row){
@@ -213,9 +283,7 @@ char ReadPix(char id, char row){
 		{
 			out = out << 1;
 			out += headSouth[row][i];
-		
 		}
 	}
-	
 	return out;
 }
