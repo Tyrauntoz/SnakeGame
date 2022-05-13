@@ -37,10 +37,8 @@ Discarded input sections
  .bss           0x00000000        0x0 DisplayOperations.o
  .text.TurnOffDisplay
                 0x00000000        0x8 DisplayOperations.o
- .text.cs1Low   0x00000000        0x4 DisplayOperations.o
  .text.ResetLow
                 0x00000000        0x4 DisplayOperations.o
- .text.Screen1  0x00000000        0xa DisplayOperations.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
@@ -307,7 +305,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x8bc
+.text           0x00000000      0x97a
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.3.300/gcc/dev/atmega1284/avr51/crtatmega1284.o
                 0x00000000                __vector_default
@@ -409,96 +407,103 @@ END GROUP
                 0x000000cc                cs2Low
  .text.cs1High  0x000000d0        0x4 DisplayOperations.o
                 0x000000d0                cs1High
+ .text.cs1Low   0x000000d4        0x4 DisplayOperations.o
+                0x000000d4                cs1Low
  .text.ResetHigh
-                0x000000d4        0x4 DisplayOperations.o
-                0x000000d4                ResetHigh
- .text.rwHigh   0x000000d8        0x4 DisplayOperations.o
-                0x000000d8                rwHigh
- .text.rwLow    0x000000dc        0x4 DisplayOperations.o
-                0x000000dc                rwLow
- .text.rsHigh   0x000000e0        0x4 DisplayOperations.o
-                0x000000e0                rsHigh
- .text.rsLow    0x000000e4        0x4 DisplayOperations.o
-                0x000000e4                rsLow
- .text.eHigh    0x000000e8        0x4 DisplayOperations.o
-                0x000000e8                eHigh
- .text.eLow     0x000000ec        0x4 DisplayOperations.o
-                0x000000ec                eLow
+                0x000000d8        0x4 DisplayOperations.o
+                0x000000d8                ResetHigh
+ .text.rwHigh   0x000000dc        0x4 DisplayOperations.o
+                0x000000dc                rwHigh
+ .text.rwLow    0x000000e0        0x4 DisplayOperations.o
+                0x000000e0                rwLow
+ .text.rsHigh   0x000000e4        0x4 DisplayOperations.o
+                0x000000e4                rsHigh
+ .text.rsLow    0x000000e8        0x4 DisplayOperations.o
+                0x000000e8                rsLow
+ .text.eHigh    0x000000ec        0x4 DisplayOperations.o
+                0x000000ec                eHigh
+ .text.eLow     0x000000f0        0x4 DisplayOperations.o
+                0x000000f0                eLow
  .text.WriteData
-                0x000000f0        0x6 DisplayOperations.o
-                0x000000f0                WriteData
+                0x000000f4        0x6 DisplayOperations.o
+                0x000000f4                WriteData
  .text.StartDisplay
-                0x000000f6       0x14 DisplayOperations.o
-                0x000000f6                StartDisplay
- .text.Screen2  0x0000010a        0x6 DisplayOperations.o
-                0x0000010a                Screen2
+                0x000000fa       0x14 DisplayOperations.o
+                0x000000fa                StartDisplay
+ .text.Screen1  0x0000010e        0x6 DisplayOperations.o
+                0x0000010e                Screen1
+ .text.Screen2  0x00000114        0x6 DisplayOperations.o
+                0x00000114                Screen2
  .text.SetPixel
-                0x00000110       0x10 DisplayOperations.o
-                0x00000110                SetPixel
- .text.SetX     0x00000120       0x12 DisplayOperations.o
-                0x00000120                SetX
- .text.SetY     0x00000132       0x12 DisplayOperations.o
-                0x00000132                SetY
+                0x0000011a       0x10 DisplayOperations.o
+                0x0000011a                SetPixel
+ .text.SetX     0x0000012a       0x12 DisplayOperations.o
+                0x0000012a                SetX
+ .text.SetY     0x0000013c       0x12 DisplayOperations.o
+                0x0000013c                SetY
  .text.WipeScreen
-                0x00000144       0x40 DisplayOperations.o
-                0x00000144                WipeScreen
- .text.ReadOn   0x00000184        0xa DisplayOperations.o
-                0x00000184                ReadOn
- .text.ReadOff  0x0000018e        0x6 DisplayOperations.o
-                0x0000018e                ReadOff
+                0x0000014e       0x40 DisplayOperations.o
+                0x0000014e                WipeScreen
+ .text.ReadOn   0x0000018e        0xa DisplayOperations.o
+                0x0000018e                ReadOn
+ .text.ReadOff  0x00000198        0x6 DisplayOperations.o
+                0x00000198                ReadOff
  .text.SnakeInit
-                0x00000194       0x60 main.o
-                0x00000194                SnakeInit
- .text.AddPart  0x000001f4       0x3a main.o
-                0x000001f4                AddPart
- .text.AddFood  0x0000022e       0x80 main.o
-                0x0000022e                AddFood
- .text.ADCRead  0x000002ae       0x26 main.o
-                0x000002ae                ADCRead
+                0x0000019e       0x60 main.o
+                0x0000019e                SnakeInit
+ .text.AddPart  0x000001fe       0x3a main.o
+                0x000001fe                AddPart
+ .text.AddFood  0x00000238       0x8a main.o
+                0x00000238                AddFood
+ .text.ADCRead  0x000002c2       0x26 main.o
+                0x000002c2                ADCRead
  .text.GetRotation
-                0x000002d4       0x72 main.o
-                0x000002d4                GetRotation
- .text.Update   0x00000346      0x13e main.o
-                0x00000346                Update
- .text.GetSeed  0x00000484       0x34 main.o
-                0x00000484                GetSeed
- .text.Init     0x000004b8       0x28 main.o
-                0x000004b8                Init
- .text.ReadPix  0x000004e0      0x126 main.o
-                0x000004e0                ReadPix
- .text.Draw     0x00000606       0x9c main.o
-                0x00000606                Draw
- .text.main     0x000006a2       0x24 main.o
-                0x000006a2                main
+                0x000002e8       0x72 main.o
+                0x000002e8                GetRotation
+ .text.GetSeed  0x0000035a       0x34 main.o
+                0x0000035a                GetSeed
+ .text.Init     0x0000038e       0x28 main.o
+                0x0000038e                Init
+ .text.ReadPix  0x000003b6      0x150 main.o
+                0x000003b6                ReadPix
+ .text.Draw     0x00000506       0x9c main.o
+                0x00000506                Draw
+ .text.GameOver
+                0x000005a2       0x38 main.o
+                0x000005a2                GameOver
+ .text.Update   0x000005da      0x17a main.o
+                0x000005da                Update
+ .text.main     0x00000754       0x30 main.o
+                0x00000754                main
  .text.avr-libc
-                0x000006c6      0x138 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(random.o)
-                0x000006c6                random_r
-                0x00000756                random
-                0x000007ec                srandom
+                0x00000784      0x138 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(random.o)
+                0x00000784                random_r
+                0x00000814                random
+                0x000008aa                srandom
  .text.libgcc.div
-                0x000007fe       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_divmodsi4.o)
-                0x000007fe                __divmodsi4
+                0x000008bc       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_divmodsi4.o)
+                0x000008bc                __divmodsi4
  .text.libgcc.div
-                0x00000826       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_negsi2.o)
-                0x00000826                __negsi2
+                0x000008e4       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_negsi2.o)
+                0x000008e4                __negsi2
  .text.libgcc.mul
-                0x00000836       0x14 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_muluhisi3.o)
-                0x00000836                __muluhisi3
+                0x000008f4       0x14 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_muluhisi3.o)
+                0x000008f4                __muluhisi3
  .text.libgcc.mul
-                0x0000084a        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_mulshisi3.o)
-                0x0000084a                __mulshisi3
-                0x0000084e                __mulohisi3
+                0x00000908        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_mulshisi3.o)
+                0x00000908                __mulshisi3
+                0x0000090c                __mulohisi3
  .text.libgcc.div
-                0x00000856       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
-                0x00000856                __udivmodsi4
+                0x00000914       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
+                0x00000914                __udivmodsi4
  .text.libgcc.mul
-                0x0000089a       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_umulhisi3.o)
-                0x0000089a                __umulhisi3
-                0x000008b8                . = ALIGN (0x2)
+                0x00000958       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_umulhisi3.o)
+                0x00000958                __umulhisi3
+                0x00000976                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000008b8        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x000008b8                _exit
-                0x000008b8                exit
+ .fini9         0x00000976        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x00000976                _exit
+                0x00000976                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -517,11 +522,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000008b8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000976        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000008bc                _etext = .
+                0x0000097a                _etext = .
 
-.data           0x00800100       0x70 load address 0x000008bc
+.data           0x00800100      0x180 load address 0x0000097a
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(random.o)
@@ -543,55 +548,62 @@ END GROUP
                 0x0080010d                posX
  .data.x        0x0080010e        0x1 main.o
                 0x0080010e                x
- .data.food     0x0080010f       0x10 main.o
-                0x0080010f                food
- .data.fill     0x0080011f       0x10 main.o
-                0x0080011f                fill
+ .data.gameOver
+                0x0080010f      0x100 main.o
+                0x0080010f                gameOver
+ .data.food     0x0080020f       0x10 main.o
+                0x0080020f                food
+ .data.fill2    0x0080021f       0x10 main.o
+                0x0080021f                fill2
+ .data.fill     0x0080022f       0x10 main.o
+                0x0080022f                fill
  .data.headWest
-                0x0080012f       0x10 main.o
-                0x0080012f                headWest
+                0x0080023f       0x10 main.o
+                0x0080023f                headWest
  .data.headEast
-                0x0080013f       0x10 main.o
-                0x0080013f                headEast
+                0x0080024f       0x10 main.o
+                0x0080024f                headEast
  .data.headSouth
-                0x0080014f       0x10 main.o
-                0x0080014f                headSouth
+                0x0080025f       0x10 main.o
+                0x0080025f                headSouth
  .data.headNorth
-                0x0080015f       0x10 main.o
-                0x0080015f                headNorth
+                0x0080026f       0x10 main.o
+                0x0080026f                headNorth
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
-                0x00800170                . = ALIGN (0x2)
- *fill*         0x0080016f        0x1 
-                0x00800170                _edata = .
-                0x00800170                PROVIDE (__data_end, .)
+                0x00800280                . = ALIGN (0x2)
+ *fill*         0x0080027f        0x1 
+                0x00800280                _edata = .
+                0x00800280                PROVIDE (__data_end, .)
 
-.bss            0x00800170      0x114
-                0x00800170                PROVIDE (__bss_start, .)
+.bss            0x00800280      0x115
+                0x00800280                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.rotation  0x00800170        0x1 main.o
-                0x00800170                rotation
- .bss.y         0x00800171        0x1 main.o
-                0x00800171                y
- .bss.blank     0x00800172       0x10 main.o
-                0x00800172                blank
+ .bss.rotation  0x00800280        0x1 main.o
+                0x00800280                rotation
+ .bss.y         0x00800281        0x1 main.o
+                0x00800281                y
+ .bss.lost      0x00800282        0x1 main.o
+                0x00800282                lost
+ .bss.blank     0x00800283       0x10 main.o
+                0x00800283                blank
  *(COMMON)
- COMMON         0x00800182      0x102 main.o
-                0x00800182                game
-                0x00800282                lastPosY
-                0x00800283                lastPosX
-                0x00800284                PROVIDE (__bss_end, .)
-                0x000008bc                __data_load_start = LOADADDR (.data)
-                0x0000092c                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800293      0x102 main.o
+                0x00800293                game
+                0x00800393                lastPosY
+                0x00800394                lastPosX
+                0x00800395                PROVIDE (__bss_end, .)
+                0x0000097a                __data_load_start = LOADADDR (.data)
+                0x00000afa                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800284        0x0
+.noinit         0x00800395        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800284                _end = .
+                0x00800395                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -658,51 +670,51 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x148
+.debug_aranges  0x00000000      0x150
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0xd0 DisplayOperations.o
  .debug_aranges
-                0x000000d0       0x78 main.o
+                0x000000d0       0x80 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x13e3
+.debug_info     0x00000000     0x14c7
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x792 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.3.300/gcc/dev/atmega1284/avr51/crtatmega1284.o
  .debug_info    0x00000792      0x40b DisplayOperations.o
- .debug_info    0x00000b9d      0x846 main.o
+ .debug_info    0x00000b9d      0x92a main.o
 
-.debug_abbrev   0x00000000      0xa6a
+.debug_abbrev   0x00000000      0xa8b
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x729 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.3.300/gcc/dev/atmega1284/avr51/crtatmega1284.o
  .debug_abbrev  0x00000729       0xe4 DisplayOperations.o
- .debug_abbrev  0x0000080d      0x25d main.o
+ .debug_abbrev  0x0000080d      0x27e main.o
 
-.debug_line     0x00000000      0xa6c
+.debug_line     0x00000000      0xb0f
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x169 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.3.300/gcc/dev/atmega1284/avr51/crtatmega1284.o
  .debug_line    0x00000169      0x392 DisplayOperations.o
- .debug_line    0x000004fb      0x571 main.o
+ .debug_line    0x000004fb      0x614 main.o
 
-.debug_frame    0x00000000      0x318
+.debug_frame    0x00000000      0x328
  *(.debug_frame)
  .debug_frame   0x00000000      0x1b0 DisplayOperations.o
- .debug_frame   0x000001b0      0x168 main.o
+ .debug_frame   0x000001b0      0x178 main.o
 
-.debug_str      0x00000000      0x606
+.debug_str      0x00000000      0x631
  *(.debug_str)
  .debug_str     0x00000000      0x296 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.3.300/gcc/dev/atmega1284/avr51/crtatmega1284.o
  .debug_str     0x00000296      0x1ee DisplayOperations.o
                                 0x227 (size before relaxing)
- .debug_str     0x00000484      0x182 main.o
-                                0x32f (size before relaxing)
+ .debug_str     0x00000484      0x1ad main.o
+                                0x362 (size before relaxing)
 
-.debug_loc      0x00000000      0xaac
+.debug_loc      0x00000000      0xbc2
  *(.debug_loc)
  .debug_loc     0x00000000      0x17f DisplayOperations.o
- .debug_loc     0x0000017f      0x92d main.o
+ .debug_loc     0x0000017f      0xa43 main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -722,10 +734,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x140
+.debug_ranges   0x00000000      0x148
  *(.debug_ranges)
  .debug_ranges  0x00000000       0xc0 DisplayOperations.o
- .debug_ranges  0x000000c0       0x80 main.o
+ .debug_ranges  0x000000c0       0x88 main.o
 
 .debug_macro
  *(.debug_macro)

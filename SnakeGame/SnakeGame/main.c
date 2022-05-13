@@ -16,6 +16,8 @@ void AddFood();
 long GetSeed();
 void GetRotation(int x, int y);
 uint16_t ADCRead(uint8_t direction);
+void GameOver();
+char lost = 0;
 
 char game[16][16]; //värde 0 = tom, 1 - 240 är snake delar, 241 = pickup, 242 - 246 snake huvud (alla rotationer).
 
@@ -46,10 +48,13 @@ int main(void)
 	
 	while (1)
 	{
-		Update();
-		Draw();
-		//delay = 300 * (1 / (ttl * 5));
-		_delay_ms(60);
+		if (lost == 0)
+		{
+			GetRotation(0, 1);
+			Update();
+			_delay_ms(10);
+			Draw();
+		}
 	}
 }
 
@@ -81,7 +86,10 @@ void IsInBound()
 
 void AddFood()
 {
-	game[random() % 16][random() % 16] = 241;
+	char xSpawn = random() % 16;
+	char ySpawn = random() % 16;
+	game[xSpawn][ySpawn] = 241;
+	
 }
 
 uint16_t ADCRead(uint8_t direction)
@@ -101,26 +109,24 @@ void GetRotation(int x, int y)
 	
 	if (currentX > joystickHor + joystickDeadZone)
 	{
-		rotation = 0;
+		rotation = 3;
 	}
 	if (currentY < joystickVer - joystickDeadZone)
 	{
-		rotation = 1;
+		rotation = 0;
 	}
 	if (currentX < joystickHor - joystickDeadZone)
 	{
-		rotation = 2;
+		rotation = 1;
 	}
 	if (currentY > joystickVer + joystickDeadZone)
 	{
-		rotation = 3;
+		rotation = 2;
 	}
 }
 
 void Update()
-{
-	GetRotation(0, 1);
-	
+{	
 	switch (rotation)
 	{
 		case 0:
@@ -160,6 +166,11 @@ void Update()
 				AddFood();
 			}
 			
+			if ((game[posX][posY] > 0 && game[posX][posY] <= ttl) || posX > 16 || posX < 0 || posY > 16 || posY < 0)
+			{
+				GameOver();
+			}
+			
 			//game[x][y] = BodyParts[x][y];
 			if ((game[x][y] > 0 && game[x][y] <= 240) )
 			{
@@ -174,7 +185,7 @@ void Update()
 
 void Draw()
 {
-	Screen2();
+	Screen1();
 	
 	for (char x = 0; x < 8; x++)
 	{
@@ -203,7 +214,7 @@ void Init()
 	PORTD |= 0b10000000;
 	
 	ADMUX |= 0b01000000;
-	ADCSRA |= 0b10000111; //prescaler 128
+	ADCSRA |= 0b10000000; //prescaler 128
 	
 	srandom(GetSeed());
 }
@@ -285,5 +296,31 @@ char ReadPix(char id, char row){
 			out += headSouth[row][i];
 		}
 	}
+	else if (id == 245)
+	{
+		for(int i = 3; i >= 0; i--)
+		{
+			out = out << 1;
+			out += fill2[row][i];
+		}
+	}
 	return out;
+}
+
+void GameOver()
+{
+	lost = 1;
+	
+	for (int x = 0; x < 16; x++)
+	{
+		for (int y = 0; y < 16; y++)
+		{
+			game[x][y] = gameOver[x][y];
+		}
+	}
+	
+	while(1)
+	{
+		Draw();
+	}
 }
