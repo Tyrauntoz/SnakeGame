@@ -1,5 +1,4 @@
 #define F_CPU 8000000UL
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdlib.h>
@@ -17,6 +16,10 @@ long GetSeed();
 void GetRotation(int x, int y);
 uint16_t ADCRead(uint8_t direction);
 void GameOver();
+void DrawScore();
+char Reverse(char out);
+void UpdateScore();
+void DrawNumber(char in);
 char lost = 0;
 
 char game[16][16]; //värde 0 = tom, 1 - 240 är snake delar, 241 = pickup, 242 - 246 snake huvud (alla rotationer).
@@ -28,12 +31,16 @@ uint8_t posY = 8;
 char lastPosX;
 char lastPosY;
 char rotation = 0;
+char lastRotation = 0;
+char nextRotation = 0;
 int ttl = 3;
 int delay = 60;
+int points = 0;
 
-int joystickHor = 599;
-int joystickVer = 574;
-int joystickDeadZone = 150;
+int joystickY = 600;
+int joystickX = 600;
+int jsDeadZoneY = 150;
+int jsDeadZoneX = 150;
 
 int main(void)
 {
@@ -46,13 +53,35 @@ int main(void)
 	SnakeInit();
 	AddFood();
 	
+	DrawScore();
+	UpdateScore();
+	
 	while (1)
 	{
 		if (lost == 0)
 		{
-			GetRotation(0, 1);
+			
+			for (int i = 0; i < 5; i++)
+			{
+				_delay_ms(1);
+				GetRotation(0, 1);
+				if (rotation != lastRotation)
+				{
+					nextRotation = rotation;
+				}
+			}
+			
+			if (((rotation + 2) % 4) == lastRotation)
+			{
+				rotation = lastRotation;
+			}
+			lastRotation = rotation;
 			Update();
-			_delay_ms(10);
+			Draw();
+		}
+		else
+		{
+			_delay_ms(100);
 			Draw();
 		}
 	}
@@ -77,11 +106,9 @@ void AddPart()
 	}
 	
 	ttl++;
-}
-
-void IsInBound()
-{
 	
+	points++;
+	UpdateScore();
 }
 
 void AddFood()
@@ -89,7 +116,6 @@ void AddFood()
 	char xSpawn = random() % 16;
 	char ySpawn = random() % 16;
 	game[xSpawn][ySpawn] = 241;
-	
 }
 
 uint16_t ADCRead(uint8_t direction)
@@ -107,19 +133,19 @@ void GetRotation(int x, int y)
 	int currentX = ADCRead(x);
 	int currentY = ADCRead(y);
 	
-	if (currentX > joystickHor + joystickDeadZone)
+	if (currentX > joystickX + jsDeadZoneX)
 	{
 		rotation = 3;
 	}
-	if (currentY < joystickVer - joystickDeadZone)
+	else if (currentY < joystickX - jsDeadZoneX)
 	{
 		rotation = 0;
 	}
-	if (currentX < joystickHor - joystickDeadZone)
+	else if (currentX < joystickY - jsDeadZoneY)
 	{
 		rotation = 1;
 	}
-	if (currentY > joystickVer + joystickDeadZone)
+	else if (currentY > joystickY + jsDeadZoneY)
 	{
 		rotation = 2;
 	}
@@ -156,29 +182,36 @@ void Update()
 	posX += x;
 	posY += y;
 	
-	for (int x = 0; x < 16; x++)
+	if (posX >= 16 || posX < 0 || posY >= 16 || posY < 0) //out of bounds
 	{
-		for (int y = 0; y < 16; y++)
+		GameOver();
+	}
+	
+	if (game[posX][posY] > 0 && game[posX][posY] <= ttl) //ran into self
+	{
+		GameOver();
+	}
+	
+	
+	if ((game[posX][posY] == 241))	//add food
+	{
+		AddPart();
+		AddFood();
+	}
+	if (lost == 0)
+	{
+		for (int x = 0; x < 16; x++)
 		{
-			if ((game[posX][posY] == 241))
+			for (int y = 0; y < 16; y++)
 			{
-				AddPart();
-				AddFood();
+				if ((game[x][y] > 0 && game[x][y] <= 240) )
+				{
+					game[x][y]--;
+				}
+				
+				game[lastPosX][lastPosY] = ttl;
+				game[posX][posY] = 250 + rotation;
 			}
-			
-			if ((game[posX][posY] > 0 && game[posX][posY] <= ttl) || posX > 16 || posX < 0 || posY > 16 || posY < 0)
-			{
-				GameOver();
-			}
-			
-			//game[x][y] = BodyParts[x][y];
-			if ((game[x][y] > 0 && game[x][y] <= 240) )
-			{
-				game[x][y]--;
-			}
-			
-			game[lastPosX][lastPosY] = ttl;
-			game[posX][posY] = 250 + rotation;
 		}
 	}
 }
@@ -205,6 +238,218 @@ void Draw()
 	}
 }
 
+void DrawScore()
+{
+	Screen2();
+
+	/*for (char x = 0; x < 4; x++)
+	{
+		SetX(x);
+		SetY(50);
+		
+		for (int y = 8; y >= 0; y--)
+		{
+			char toWrite = 0;
+			for (char i = 0; i < 8; i++)
+			{
+				toWrite += (high[y][x*8 + i] << i);
+			}
+			
+			SetPixel(toWrite);
+		}
+	}*/
+	
+	for (char x = 0; x < 5; x++)
+	{
+		SetX(x);
+		SetY(20);
+		
+		for (int y = 8; y >= 0; y--)
+		{
+			char toWrite = 0;
+			for (char i = 0; i < 8; i++)
+			{
+				toWrite += (score[y][x*8 + i] << i);
+			}
+			
+			SetPixel(toWrite);
+		}
+	}
+	
+	for (char x = 0; x < 8; x++)
+	{
+		SetX(x);
+		SetY(0);
+		SetPixel(0xFF);
+	}
+}
+
+void UpdateScore()
+{
+	Screen2();
+	int temp = points;
+	
+	for (int x = 6; x >= 0; x--)
+	{
+		SetX(x);
+		SetY(7);
+		
+		if (x == 6 || x == 5)
+		{
+			DrawNumber(0);
+		}
+		else{
+			int r = points / pow(10, 4-x);
+			r = r % 10;
+			
+			DrawNumber(r);
+		}
+		
+	}
+}
+
+void DrawNumber(char in)
+{
+	char toWrite = 0;
+	switch(in)
+	{
+		case 0:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (zero[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 1:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (one[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 2:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (two[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 3:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (three[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 4:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (four[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 5:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (five[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 6:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (six[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 7:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (seven[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 8:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (eight[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		case 9:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (nine[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+		default:
+			for (int y = 8; y >= 0; y--)
+			{
+				toWrite = 0;
+				for (char i = 0; i < 8; i++)
+				{
+					toWrite += (empty[y][i] << i);
+				}
+				
+				SetPixel(toWrite);
+			}
+			break;
+	}
+}
+
+// 0b00101010 0b01010100
+
 void Init()
 {
 	DDRA = 0x0;
@@ -214,7 +459,9 @@ void Init()
 	PORTD |= 0b10000000;
 	
 	ADMUX |= 0b01000000;
-	ADCSRA |= 0b10000000; //prescaler 128
+	ADCSRA |= 0b10000101; //prescaler 128 32?
+	//ADMUX |= 0b01000001;
+	//ADCSRA |= 0b10000101;
 	
 	srandom(GetSeed());
 }
@@ -222,19 +469,10 @@ void Init()
 long GetSeed()
 {
 	long seed = 0;
-	ReadOn();
+	seed += ADCRead(0);
+	seed += ADCRead(1);
 	
-	for (int i = 0; i < 8; i++)
-	{
-		SetX(i);
-		for (int j = 0; j < 64; j++)
-		{
-			seed += PORTB * i;
-			WriteData();
-		}
-	}
-	
-	ReadOff();
+	return seed;
 }
 
 char ReadPix(char id, char row){
@@ -317,10 +555,5 @@ void GameOver()
 		{
 			game[x][y] = gameOver[x][y];
 		}
-	}
-	
-	while(1)
-	{
-		Draw();
 	}
 }
