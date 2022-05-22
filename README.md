@@ -1,4 +1,3 @@
-# Snake
+# Snake The Game
 
-## The Game
 A group project.
